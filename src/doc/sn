@@ -1,0 +1,124 @@
+框架设计
+一、JAR包导入
+
+二、数据库配置文件
+
+三、框架页整理
+
+1、主框架——main.html
+
+2、左页——left.jsp
+
+  (1)页面映射控制器action/leftaction.do——LeftController 
+  
+3、右页——right.html
+
+4、顶页——top.html
+
+四、过滤器
+
+1、身份验证LoginCheckFilter
+
+2、POST中文乱码处理CharacterEncodiong
+
+模块设计 
+
+一、客房管理
+
+1、新建客房
+
+   实体类：RoomState(客房状态),RoomType(客房类型),Room(客房)
+ 
+（1）新增客房类型 
+            控制器：action/roomtypeaction.do?opt=add——RoomTypeController
+    int add(RoomType roomType):RoomTypeService
+      int save(RoomType roomType):RoomTypeDao  
+    RoomType findById(int id):IRoomTypeService
+      List<RoomType> findById(int id):RoomTypeDao 
+（2）新增客房
+           页面：roomadd.jsp
+           
+           页面控制器：action/roomaction.do?opt=addurl——RoomController
+    List<RoomType> findAll():IRoomTypeService
+      List<RoomType> findAll():RoomTypeDao 
+     
+             
+           数据处理控制器：action/roomaction.do?opt=add——RoomController
+    int add(Room room):IRoomService
+      int save(Room room):RoomDao
+（3）列表客房类型
+    List<RoomType> findAll():IRoomTypeService
+      List<RoomType> findAll():RoomTypeDao
+（4）按编号查询客房类型
+    RoomType findById(int id):IRoomTypeService
+      List<RoomType> findById(int id):RoomTypeDao
+2、修改客房状态及入住人数
+   int update(int number,int state,int id):IRoomService
+     int update(int number,int state,int id):RoomDao    
+3、修改客房信息
+    页面：roomadd.jsp
+           
+           页面控制器：action/roomaction.do?opt=editurl——RoomController
+    List<RoomType> findAll():IRoomTypeService
+      List<RoomType> findAll():RoomTypeDao 
+            先查询修改的数据
+    Room findById(int id):IRoomService
+      List<Room> findById(int id):RoomDao 
+   数据处理控制器：action/roomaction.do?opt=edit——RoomController
+     int update(String description,int type,int id):IRoomService
+       int update(String description,int type,int id):RoomDao 
+4、列表客房信息
+      页面:roomlist.jsp
+      控制:action/roomaction.do?opt=list——RoomController
+   List<Room> findAll(int currentPage,int pageSize):IRoomService
+     List<Room> findAll(int start,int pageSize):RoomDao
+   int count():IRoomService
+     int count():RoomDao
+5、按客房类型和状态查询
+        控制器:action/roomaction.do?opt=type——RoomController
+   List<Room> findByRoomType(int roomType,int state):IRoomService
+     List<Room> findByRoomType(int roomType,int state):RoomDao
+6、按编号查询客房信息
+   Room findById(int id):IRoomService
+     List<Room> findById(int id):RoomDao 
+7、查询所有房间
+       控制器：action/roomaction.do?opt=all——RoomController
+       List<Room> findAll():IRoomService
+         List<Room> findAll():RoomDao
+二、住宿管理
+1、住宿登记
+       登记页面：register.jsp
+        页面控制器：action/guestaction.do?opt=url——GuestController
+   List<RoomType> findAll():IRoomTypeService
+         数据处理控制器：action/guestaction.do?opt=add——GuestController
+   int regist(Guest guest):IGuestService
+   save(Guest guest):GuestDao
+   int update(int number,int state,int id):RoomDao
+       处理结果页面：reginfo.jsp
+2、住宿查询
+   List<Guest> findAnd(String name, 
+       int room, int start, int pageSize)::GuestDao 
+   int count(String name, int room)::GuestDao 
+3、退房管理
+4、按住宿编号查询
+   List<Guest> findById(int id)::GuestDao 
+
+三、用户管理
+
+1、身份认证
+
+（1）实体类—User
+
+（2）jsp页面—登录页面login.jsp
+
+（3）页面映射控制器loginaction.do——LoginController
+
+（4）登录控制器loginaction.do?opt=login——LoginController
+
+          参数：
+          
+   login:登录处理
+   
+2、用户注册
+
+        
